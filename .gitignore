@@ -1,0 +1,59 @@
+# Node
+node_modules
+dist
+.vite
+npm-debug.log
+yarn-error.log
+coverage
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.Python
+.env
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# OS-specific
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE-specific
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Credentials & Sensitive Files
+*.json
+!frontend/components.json
+!frontend/package.json
+!frontend/package-lock.json
+!frontend/tsconfig.json
+!frontend/tsconfig.app.json
+!frontend/tsconfig.node.json
+!backend/.env
+asphalt-ai-firebase-adminsdk-fbsvc-f7762d42b3.json
+.kaggle/kaggle.json
+
+# Logs
+*.log
+*.zip

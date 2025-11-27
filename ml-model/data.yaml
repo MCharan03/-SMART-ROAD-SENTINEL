@@ -1,0 +1,16 @@
+# Path to the root of the synthetic dataset
+path: ../ml-model/dataset_synthetic
+
+# Image directories
+train: images/train
+val: images/val
+
+# --- Class Definition ---
+# Number of classes
+nc: 3
+
+# Class names
+names:
+  0: scratch
+  1: dent
+  2: discoloration

@@ -1,0 +1,6 @@
+torch
+torchvision
+ultralytics
+kaggle
+mlflow
+python-dotenv
