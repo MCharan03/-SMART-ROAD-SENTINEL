@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SENTINEL Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="dashboard-grid">
+        <div id="video-container" class="grid-item">
+            <h1>LIVE CAMERA FEED</h1>
+            <div id="pothole-alert" class="hidden">POTHOLE DETECTED</div>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+
+        <div id="telemetry-container" class="grid-item">
+            <h1>TELEMETRY</h1>
+            <div class="telemetry-widget">
+                <h2>SPEED <span id="obd-status" class="status-indicator"></span></h2>
+                <p id="speed-value">-- km/h</p>
+            </div>
+            <div class="telemetry-widget">
+                <h2>GPS <span id="gps-status" class="status-indicator"></span></h2>
+                <p id="gps-value">--,--</p>
+            </div>
+            <div class="telemetry-widget">
+                <h2>SUSPENSION</h2>
+                <p id="suspension-status">--</p>
+            </div>
+        </div>
+
+        <div id="g-force-container" class="grid-item">
+            <h1>G-FORCE MONITOR <span id="imu-status" class="status-indicator"></span></h1>
+            <canvas id="g-force-chart"></canvas>
+        </div>
+
+        <div id="log-container" class="grid-item">
+            <h1>EVENT LOG</h1>
+            <table id="event-log-table">
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Event</th>
+                        <th>Details</th>
+                    </tr>
+                </thead>
+                <tbody id="event-log-body">
+                    <!-- JS will populate this -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
