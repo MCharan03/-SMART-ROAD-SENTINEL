@@ -1,3 +1,9 @@
+import sys
+import os
+
+# Add the parent directory (prototype) to sys.path to allow importing modules from it
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
 import kivy
 from kivy.app import App
 from kivy.uix.boxlayout import BoxLayout
@@ -64,7 +70,7 @@ class SentinelApp(App):
         # Initialize camera, GPS, and Detection Engine
         self.capture = cv2.VideoCapture(0)
         self.gps = GPSSimulator(start_lat=config.START_LAT, start_lon=config.START_LON)
-        self.detection_engine = DetectionEngine()
+        self.detection_engine = DetectionEngine(model_path=config.MODEL_PATH)
 
         # Initialize data storage
         self.setup_storage()
@@ -89,16 +95,6 @@ class SentinelApp(App):
         self.current_location = None
         self.current_detections = []
 
-        # Initialize cloud storage
-        if os.path.exists(config.CREDENTIALS_FILE):
-            self.cloud_storage = CloudStorage(
-                credentials_path=config.CREDENTIALS_FILE,
-                project_id=config.PROJECT_ID
-            )
-        else:
-            self.cloud_storage = None
-            print("WARNING: Firebase credentials not found. Cloud upload will be disabled.")
-
     def save_data(self, dt):
         if self.current_frame is not None and self.current_location is not None:
             timestamp = self.current_location['timestamp']
@@ -113,22 +109,6 @@ class SentinelApp(App):
             # Save metadata locally
             self.metadata_writer.writerow([image_filename, timestamp, lat, lon, str(self.current_detections)])
 
-            # Upload to cloud in a separate thread
-            if self.cloud_storage:
-                thread = threading.Thread(target=self.upload_to_cloud, args=(image_path, self.current_location, self.current_detections))
-                thread.start()
-
-    def upload_to_cloud(self, image_path, location_data, detections):
-        # Upload image
-        destination_blob_name = f"{self.session_timestamp}/{os.path.basename(image_path)}"
-        image_url = self.cloud_storage.upload_file(image_path, destination_blob_name)
-
-        # Add metadata to Firestore
-        if image_url:
-            data_to_upload = location_data.copy()
-            data_to_upload['image_url'] = image_url
-            data_to_upload['detections'] = detections
-            self.cloud_storage.add_document(config.FIRESTORE_COLLECTION, data_to_upload)
 
     def show_alert(self, message):
         self.alert_box.alert_text_label.text = message
@@ -161,7 +141,7 @@ class SentinelApp(App):
 
             # Convert it to texture for display
             buf1 = cv2.flip(frame_with_boxes, 0)
-            buf = buf1.tostring()
+            buf = buf1.tobytes()
             image_texture = Texture.create(
                 size=(frame_with_boxes.shape[1], frame_with_boxes.shape[0]), colorfmt='bgr')
             image_texture.blit_buffer(buf, colorfmt='bgr', bufferfmt='ubyte')

@@ -1,0 +1,25 @@
+<div id="historical-data-container" class="grid-item">
+    <h1>HISTORICAL DEFECTS</h1>
+    <div class="filter-controls">
+        <label for="date-filter">Filter by Date:</label>
+        <input type="date" id="date-filter">
+        <button id="apply-filter">Apply</button>
+        <button id="reset-filter">Reset</button>
+    </div>
+    <div class="data-table-wrapper">
+        <table id="historical-data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Timestamp</th>
+                    <th>View</th>
+                </tr>
+            </thead>
+            <tbody id="historical-data-body">
+                <!-- JS will populate this -->
+            </tbody>
+        </table>
+    </div>
+</div>

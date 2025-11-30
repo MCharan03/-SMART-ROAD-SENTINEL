@@ -1,0 +1,9 @@
+<div id="video-container" class="grid-item">
+    <h1>LIVE CAMERA FEED</h1>
+    <div class="camera-controls">
+        <button id="start-camera-btn">Start Camera</button>
+        <button id="stop-camera-btn">Stop Camera</button>
+    </div>
+    <div id="pothole-alert" class="hidden">POTHOLE DETECTED</div>
+    <img src="{{ url_for('video_feed') }}" width="100%">
+</div>
